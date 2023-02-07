@@ -4,6 +4,15 @@ name: Pull request validation
 # Definition when the workflow should run
 on:
   workflow_dispatch:
+    inputs:
+      organization: 
+        description: Target environment
+        required: true
+        type: choice
+        options:
+          - DEV
+          - UAT
+          - PRD
   pull_request:
     types: [opened, synchronize, reopened]
     branches: 
