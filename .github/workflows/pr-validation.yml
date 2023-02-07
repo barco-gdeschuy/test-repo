@@ -14,7 +14,7 @@ on:
 # Jobs to be executed
 jobs:
   check-only-build:
-    runs on: ubuntu-latest
+    runs-on: ubuntu-latest
     steps:
       # Checkout the source code
       - name: 'Checkout source code'
