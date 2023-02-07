@@ -12,7 +12,7 @@ on:
 
 # Jobs to be executed
 jobs:
-  check-only-build
+  check-only-build:
     runs on: ubuntu-latest
     steps:
       # Checkout the source code
