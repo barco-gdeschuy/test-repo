@@ -3,6 +3,7 @@ name: Pull request validation
 
 # Definition when the workflow should run
 on:
+  workflow_dispatch:
   pull_request:
     types: [opened, synchronize, reopened]
     branches: 
