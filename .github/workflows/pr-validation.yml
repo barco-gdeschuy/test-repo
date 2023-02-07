@@ -1,0 +1,26 @@
+# Unique name on this workflow
+name: Pull request validation
+
+# Definition when the workflow should run
+on:
+  pull_request:
+    types: [opened, synchronize, reopened]
+    branches: 
+      - master
+    paths:
+      - 'force-app/**'
+
+# Jobs to be executed
+jobs:
+  check-only-build
+    runs on: ubuntu-latest
+    steps:
+      # Checkout the source code
+      - name: 'Checkout source code'
+        uses: actions/checkout@v3
+
+      # Install Salesforce CLI
+      - name: 'Install Salesforce CLI'
+        run: |
+            npm install sfdx-cli --global
+            sfdx --version
