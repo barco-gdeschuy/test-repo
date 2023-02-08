@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
-    <fullName>Test__c</fullName>
+    <fullName>Test1__c</fullName>
     <description>Test field used for CI/CD</description>
     <externalId>false</externalId>
-    <label>Test Glenn</label>
+    <label>Test1 Glenn</label>
     <length>255</length>
     <required>false</required>
     <trackFeedHistory>false</trackFeedHistory>
