@@ -35,7 +35,7 @@ jobs:
       # Populate auth file with GitHub secret
       - name: 'Populate auth file'
         shell: bash
-        run: echo "${{SFDX_URL_DEV}}" > sfdx_url_dev.txt
+        run: echo "${{secrets.SFDX_URL_DEV}}" > sfdx_url_dev.txt
 
       # Authenticate to org
       - name: 'Authenticate org'
