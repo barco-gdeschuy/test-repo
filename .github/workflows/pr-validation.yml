@@ -27,7 +27,7 @@ jobs:
             sfdx version
 
       # Install delta deployment tool
-      - name: 
+      - name: 'Install sfdx-git-delta'
         run: |
             echo y | sfdx plugins:install sfdx-git-delta
             sfdx plugins
@@ -45,7 +45,7 @@ jobs:
       - name: 'Create delta package'
         run: |
             mkdir delta-src/
-            sfdx sgd:source:delta --to "HEAD" --from "HEAD^1" --output delta-src/ --generate-delta --source force-app/ 
+            sfdx sgd:source:delta --to "HEAD" --from "HEAD^" --output delta-src/ --generate-delta --source force-app/
 
       # Deploy source to org
       - name: 'Deploy source to org'
