@@ -58,7 +58,7 @@ jobs:
             echo ""
             cat delta-src/package/package.xml
             echo ""
-            ls -lart
+            ls -lart delta-src/
 
       # Deploy source to org
       - name: 'Deploy source to org'
