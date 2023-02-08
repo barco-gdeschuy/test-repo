@@ -39,7 +39,7 @@ jobs:
         shell: bash
         run: |
             echo "${{ secrets.SFDX_URL_DEV }}" > ./sfdx_url_dev.txt
-            secretFileSize = $(wc -c "./sfdx_url_dev.txt" | awk '{print $1}')
+            secretFileSize=$(wc -c "./sfdx_url_dev.txt" | awk '{print $1}')
             if [ $secretFileSize == 1 ]; then
               echo "Missing GitHub secret!";
               exit 1;
