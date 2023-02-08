@@ -24,11 +24,29 @@ jobs:
       - name: 'Install Salesforce CLI'
         run: |
             npm install sfdx-cli --global
-            sfdx --version
+            sfdx version
 
-      # Authenticate
-      run: |
-          echo "${SFDX_DEV_URL}" > SFDX_DEV_URL.txt
-          sfdx auth:sfdxurl:store -f ./SFDX_DEV_URL.txt -a devhub -d
+      # Install delta deployment tool
+      - name: 
+        run: |
+            sfdx plugins:install sfdx-git-delta
+            sfdx plugins
+
+      # Populate auth file with GitHub secret
+      - name: 'Populate auth file'
+        shell: bash
+        run: echo "${{SFDX_URL_DEV}}" > sfdx_url_dev.txt
+
+      # Authenticate to org
+      - name: 'Authenticate org'
+        run: sfdx auth:sfdxurl:store -f ./sfdx_url_dev.txt -a devhub -d -s
+
+      # Create delta package
+      - name: 'Create delta package'
+        run: |
+            mkdir delta-src/
+            sfdx sgd:source:delta --to "HEAD" --from "HEAD^" --output delta-src/ --generate-delta --source force-app/ 
 
       # Deploy source to org
+      - name: 'Deploy source to org'
+        run: sfdx force:source:deploy -p "delta-src/force-app" --checkonly --json
