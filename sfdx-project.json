@@ -5,7 +5,7 @@
       "default": true
     }
   ],
-  "name": "salesforce-dev",
+  "name": "test-repo",
   "namespace": "",
   "sfdcLoginUrl": "https://login.salesforce.com",
   "sourceApiVersion": "55.0"
