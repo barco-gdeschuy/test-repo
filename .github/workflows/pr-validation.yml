@@ -31,7 +31,7 @@ jobs:
       # Install delta deployment tool
       - name: 'Install sfdx-git-delta'
         run: |
-            echo y | sfdx plugins:install sfdx-git-delta
+            echo y | sfdx plugins:install sfdx-git-delta --verbose
             sfdx plugins
 
       # Populate auth file with GitHub secret
@@ -55,6 +55,7 @@ jobs:
         run: |
             mkdir delta-src/
             sfdx sgd:source:delta --to "HEAD" --from "HEAD^" --output delta-src/ --generate-delta --source force-app/
+            echo ""
             cat delta-src/package/package.xml
 
       # Deploy source to org
