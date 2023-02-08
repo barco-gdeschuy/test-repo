@@ -37,7 +37,13 @@ jobs:
       # Populate auth file with GitHub secret
       - name: 'Populate auth file'
         shell: bash
-        run: echo "${{secrets.SFDX_URL_DEV}}" > sfdx_url_dev.txt
+        run: |
+            echo "${{ secrets.SFDX_URL_DEV }}" > ./sfdx_url_dev.txt
+            secretFileSize = $(wc -c "./sfdx_url_dev.txt" | awk '{print $1}')
+            if [ $secretFileSize == 1 ]; then
+              echo "Missing GitHub secret!";
+              exit 1;
+            fi
 
       # Authenticate to org
       - name: 'Authenticate org'
@@ -45,9 +51,11 @@ jobs:
 
       # Create delta package
       - name: 'Create delta package'
+        shell: bash
         run: |
             mkdir delta-src/
             sfdx sgd:source:delta --to "HEAD" --from "HEAD^" --output delta-src/ --generate-delta --source force-app/
+            cat delta-src/package/package.xml
 
       # Deploy source to org
       - name: 'Deploy source to org'
