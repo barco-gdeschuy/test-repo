@@ -29,7 +29,7 @@ jobs:
       # Install delta deployment tool
       - name: 
         run: |
-            sfdx plugins:install sfdx-git-delta
+            echo y | sfdx plugins:install sfdx-git-delta
             sfdx plugins
 
       # Populate auth file with GitHub secret
