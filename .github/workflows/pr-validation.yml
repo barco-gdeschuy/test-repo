@@ -4,6 +4,13 @@ name: Pull request validation
 # Definition when the workflow should run
 on:
   workflow_dispatch:
+    inputs:
+      name:
+        type: choice
+        description: Target org
+        options: 
+        - DEV
+        - UAT
   pull_request:
     types: [opened, synchronize, reopened]
     branches: 
@@ -57,9 +64,20 @@ jobs:
             sfdx sgd:source:delta --to "HEAD" --from "HEAD^" --output delta-src/ --generate-delta --source force-app/
             echo ""
             cat delta-src/package/package.xml
-            echo ""
-            ls -lart delta-src/
-
+      
+      # Run PMD code scan
+      - name: 'Run PMD code scan'
+        uses: pmd/pmd-github-action@v1.3.0
+        id: pmd
+        with:
+          sourcePath: 'delta-src'
+          rulesets: 'ruleset.xml'
+        
+      # Check for PMD violations
+      - name: 'Check PMD violations'
+        if: steps.pmd.outputs.violations != 0
+        run: exit 1
+        
       # Deploy source to org
       - name: 'Deploy source to org'
         run: sfdx force:source:deploy -p "delta-src/force-app" --checkonly --json
