@@ -18,9 +18,6 @@ on:
     paths:
       - 'force-app/**'
 
-env:
-  GIT_HASH: HEAD^
-
 # Jobs to be executed
 jobs:
   check-only-build:
@@ -62,18 +59,19 @@ jobs:
       - name: 'Get commit id'
         shell: bash
         run: |
-            if [ ! -z "${{ vars.TAG }}" ]; then
-              GIT_HASH=$(git rev-list -n 1 ${{ vars.TAG }})
+            if [ -z "${{ vars.TAG }}" ]; then
+              echo "GIT_HASH=HEAD^" >> "$GITHUB_ENV"
+            else 
+              echo "GIT_HASH=$(git rev-list -n 1 ${{ vars.TAG }})" >>  "$GITHUB_ENV"
             fi
-            echo "Git commit id: $GIT_HASH"
       
       # Create delta package
       - name: 'Create delta package'
         shell: bash
         run: |
             mkdir delta-src/
-            sfdx sgd:source:delta --to "HEAD" --from $GIT_HASH --output delta-src/ --generate-delta --source force-app/
-            echo $(wc -c "delta-src/package/package.xml")
+            sfdx sgd:source:delta --to "HEAD" --from ${{ env.GIT_HASH }} --output delta-src/ --generate-delta --source force-app/
+            echo "word count: $(wc -c "delta-src/package/package.xml")"
             if [ $(wc -c "delta-src/package/package.xml") <= 4]; then
               echo "Empty package xml"
               exit 1;
