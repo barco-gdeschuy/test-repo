@@ -70,12 +70,12 @@ jobs:
         shell: bash
         run: |
             mkdir delta-src/
-            sfdx sgd:source:delta --to "HEAD" --from ${{ env.GIT_HASH }} --output delta-src/ --generate-delta --source force-app/
-            if [ $(wc -l "delta-src/package/package.xml") -le 4]; then
+            sfdx sgd:source:delta --to "HEAD" --from ${{ env.GIT_HASH }} --output . --source force-app/ -D
+            if [ $(wc -l "./package/package.xml") -le 4]; then
               echo "Empty package xml"
               exit 1;
             else
-              echo; cat delta-src/package/package.xml
+              echo; cat ./package/package.xml
             fi
       
       # Run PMD code scan on delta
@@ -93,4 +93,4 @@ jobs:
         
       # Deploy source to org
       - name: 'Deploy source to org'
-        run: sfdx force:source:deploy -p "delta-src/force-app" --checkonly --json
+        run: sfdx force:source:deploy -x "./package/package.xml" --checkonly --json
