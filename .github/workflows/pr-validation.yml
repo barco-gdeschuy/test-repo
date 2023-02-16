@@ -29,12 +29,17 @@ jobs:
         with:
           fetch-depth: 0
 
-      - name: 'Get commit sha'
+      # Get commit hash
+      - name: 'Get commit hash'
         shell: bash
         run: |
-            gitHash=$(git rev-list -n 1 2.6.0)
-            echo $gitHash
-      
+            if [ -z "${{ vars.TAG }}" ]; then
+              GIT_HASH=HEAD^
+            else
+              GIT_HASH=$(git rev-list -n 1 ${{ vars.TAG }}) 
+            fi
+            echo "Git commit id set to $GIT_HASH"
+
       # Install Salesforce CLI
       - name: 'Install Salesforce CLI'
         run: |
@@ -61,6 +66,7 @@ jobs:
       # Authenticate to org
       - name: 'Authenticate org'
         run: sfdx auth:sfdxurl:store -f ./sfdx_url_dev.txt -a devhub -d -s
+      
 
       # Create delta package
       - name: 'Create delta package'
