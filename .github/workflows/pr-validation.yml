@@ -32,7 +32,7 @@ jobs:
       - name: 'Get commit sha'
         shell: bash
         run: |
-            gitHash=${git rev-list -n 1 2.6.0}
+            gitHash=$(git rev-list -n 1 2.6.0)
             echo $gitHash
       
       # Install Salesforce CLI
