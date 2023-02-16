@@ -49,8 +49,8 @@ jobs:
         shell: bash
         run: |
             echo "${{ secrets.SFDX_URL_DEV }}" > ./sfdx_url_dev.txt
-            if [ $(wc -c "./sfdx_url_dev.txt" | awk '{print $1}') ]; then
-              echo "Missing GitHub secret!";
+            if [ $(wc -c "./sfdx_url_dev.txt" | awk '{print $1}') == 1 ]; then
+              echo "Github secret missing";
               exit 1;
             fi
 
@@ -74,7 +74,7 @@ jobs:
             mkdir delta-src/
             sfdx sgd:source:delta --to "HEAD" --from $GIT_HASH --output delta-src/ --generate-delta --source force-app/
             if [ $(wc -c "delta-src/package/package.xml") <= 4]; then
-              echo "Package XML is empty!"
+              echo "Empty package xml"
               exit 1;
             else
               echo; cat delta-src/package/package.xml
