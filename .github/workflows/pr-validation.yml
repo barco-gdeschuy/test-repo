@@ -21,7 +21,7 @@ on:
 # Jobs to be executed
 jobs:
   check-only-build:
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-latest    
     steps:
       # Checkout the source code
       - name: 'Checkout source code'
@@ -29,6 +29,11 @@ jobs:
         with:
           fetch-depth: 0
 
+      - name: 'Get commit sha'
+        run: |
+            git_hash={git rev-list -n 1 2.6.0}
+            echo $git_hash
+      
       # Install Salesforce CLI
       - name: 'Install Salesforce CLI'
         run: |
