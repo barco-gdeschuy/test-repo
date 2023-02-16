@@ -71,7 +71,6 @@ jobs:
         run: |
             mkdir delta-src/
             sfdx sgd:source:delta --to "HEAD" --from ${{ env.GIT_HASH }} --output delta-src/ --generate-delta --source force-app/
-            echo "word count: $(wc -c "delta-src/package/package.xml")"
             if [ $(wc -l "delta-src/package/package.xml") <= 4]; then
               echo "Empty package xml"
               exit 1;
