@@ -30,6 +30,7 @@ jobs:
           fetch-depth: 0
 
       - name: 'Get commit sha'
+        shell: bash
         run: |
             gitHash=${git rev-list -n 1 2.6.0}
             echo $gitHash
