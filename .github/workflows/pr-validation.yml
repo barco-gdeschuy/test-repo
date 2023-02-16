@@ -70,7 +70,7 @@ jobs:
         shell: bash
         run: |
             mkdir delta-src/
-            sfdx sgd:source:delta --to "HEAD" --from ${{ env.GIT_HASH }} --output . --source force-app/ -D
+            sfdx sgd:source:delta --to "HEAD" --from ${{ env.GIT_HASH }} --output . --source force-app/
             if [ $(wc -l "./package/package.xml") -le 4]; then
               echo "Empty package xml"
               exit 1;
