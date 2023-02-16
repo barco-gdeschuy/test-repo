@@ -18,6 +18,9 @@ on:
     paths:
       - 'force-app/**'
 
+env:
+  GIT_HASH: HEAD^
+
 # Jobs to be executed
 jobs:
   check-only-build:
@@ -29,14 +32,12 @@ jobs:
         with:
           fetch-depth: 0
 
-      # Get commit hash
-      - name: 'Get commit hash'
+      # Get commit id
+      - name: 'Get commit id'
         shell: bash
         run: |
             if [ -z "${{ vars.TAG }}" ]; then
-              GIT_HASH=HEAD^
-            else
-              GIT_HASH=$(git rev-list -n 1 ${{ vars.TAG }}) 
+              GIT_HASH=$(git rev-list -n 1 ${{ vars.TAG }})
             fi
             echo "Git commit id set to $GIT_HASH"
 
