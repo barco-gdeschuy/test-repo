@@ -61,11 +61,16 @@ jobs:
         shell: bash
         run: |
             mkdir delta-src/
-            sfdx sgd:source:delta --to "HEAD" --from "HEAD^" --output delta-src/ --generate-delta --source force-app/
-            echo ""
-            cat delta-src/package/package.xml
+            git_hash={git rev-list -n 1 2.6.0}
+            sfdx sgd:source:delta --to "HEAD" --from $git_hash --output delta-src/ --generate-delta --source force-app/
+            echo; cat delta-src/package/package.xml
+            packageFileSize=$(wc -c "delta-src/package/package.xml")
+            if [ $packageFileSize <= 4 ]; then
+              echo "Package XML is empty!"
+              exit 1;
+            fi
       
-      # Run PMD code scan
+      # Run PMD code scan on delta
       - name: 'Run PMD code scan'
         uses: pmd/pmd-github-action@v1.3.0
         id: pmd
