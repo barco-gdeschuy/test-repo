@@ -9,12 +9,12 @@ on:
         type: choice
         description: Target org
         options: 
-        - DEV
-        - UAT
+          - DEV
+          - UAT
   pull_request:
     types: [opened, synchronize, reopened]
     branches: 
-      - main
+      - cpq
     paths:
       - 'force-app/**'
 
@@ -71,7 +71,7 @@ jobs:
         run: |
             mkdir delta-src/
             sfdx sgd:source:delta --to "HEAD" --from ${{ env.GIT_HASH }} --output . --source force-app/
-            if [ $(wc -l "./package/package.xml") -le 4]; then
+            if [ $(wc -l "./package/package.xml") -le 4 ]; then
               echo "Empty package xml"
               exit 1;
             else
