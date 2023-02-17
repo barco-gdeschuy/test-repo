@@ -9,8 +9,8 @@ on:
         type: choice
         description: Target org
         options: 
-        - DEV
-        - UAT
+          - DEV
+          - UAT
   pull_request:
     types: [opened, synchronize, reopened]
     branches: 
